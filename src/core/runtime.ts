@@ -9,6 +9,8 @@ type DenoRuntime = {
 export const deno = (globalThis as { Deno?: DenoRuntime }).Deno;
 export const isBun = typeof Bun !== "undefined";
 export const isNode = !isBun && !deno;
+// True when running inside a Netlify Function, which serves requests via app.fetch
+export const isNetlify = typeof (globalThis as { Netlify?: unknown }).Netlify !== "undefined";
 
 export const env = new Proxy({} as Record<string, string | undefined>, {
   get: (_, key: string) => (deno ? deno.env.get(key) : process.env[key]),

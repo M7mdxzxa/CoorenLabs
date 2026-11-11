@@ -1,0 +1,8 @@
+[build]
+  command = ""
+  publish = "public"
+
+[functions]
+  node_bundler = "esbuild"
+  # Native / browser-automation packages are loaded lazily and must not be bundled
+  external_node_modules = ["wreq-js", "puppeteer-real-browser"]

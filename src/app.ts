@@ -4,7 +4,7 @@ import { Elysia } from "elysia";
 import { CORS_CREDENTIALS, CORS_ORIGIN, NODE_ENV, validateConfig } from "./core/config";
 import { mappingRoutes } from "./core/mappingRoutes";
 import { proxyRoutes } from "./core/proxyRoutes";
-import { isNode } from "./core/runtime";
+import { isNetlify, isNode } from "./core/runtime";
 import { animeRoutes } from "./providers/anime/route";
 import { mangaRoutes } from "./providers/manga/route";
 import { metaRoutes } from "./providers/meta/route";
@@ -31,7 +31,7 @@ const documentation = openapi({
 
 validateConfig();
 
-const adapter = isNode ? (await import("@elysiajs/node")).node() : undefined;
+const adapter = isNode && !isNetlify ? (await import("@elysiajs/node")).node() : undefined;
 
 const app = new Elysia({ adapter, serve: { idleTimeout: 120 } })
   .use(
